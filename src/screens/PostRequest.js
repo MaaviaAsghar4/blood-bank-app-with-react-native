@@ -13,6 +13,13 @@ const PostRequest = ({navigation}) => {
   const [details, setDetails] = useState('');
   const [bloodGroup, setBloodGroup] = useState('');
   const [location, setLocation] = useState('');
+  const handleFormSubmit = () => {
+    console.log(name, details, bloodGroup, location);
+    setName('');
+    setDetails('');
+    setLocation('');
+    setBloodGroup('');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -26,34 +33,40 @@ const PostRequest = ({navigation}) => {
       </View>
       <View style={styles.main}>
         <View style={styles.requestContainer}>
-          <Text style={styles.requests}>Post Request</Text>
+          <Text style={styles.requests}>Request Blood</Text>
         </View>
         <ScrollView>
+          <Text style={styles.label}>Your Name</Text>
           <TextInput
             style={styles.textInput}
             placeholder={'Enter Name'}
             value={name}
             onChangeText={(text) => setName(text)}
           />
+          <Text style={styles.label}>Details</Text>
           <TextInput
             style={styles.textInput}
             placeholder={'Enter Details'}
             value={details}
             onChangeText={(text) => setDetails(text)}
           />
+          <Text style={styles.label}>Location Where Blood is needed</Text>
           <TextInput
             style={styles.textInput}
             placeholder={'Enter Location'}
             value={location}
             onChangeText={(text) => setLocation(text)}
           />
+          <Text style={styles.label}>Blood Group Required</Text>
           <TextInput
             style={styles.textInput}
             placeholder={'Enter Required Blood Group'}
             value={bloodGroup}
             onChangeText={(text) => setBloodGroup(text)}
           />
-          <TouchableOpacity style={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.btnContainer}
+            onPress={handleFormSubmit}>
             <Text style={styles.postBtn}>Post</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -117,6 +130,11 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     marginTop: 10,
+  },
+  label: {
+    marginBottom: 5,
+    fontWeight: 'bold',
+    padding: 2,
   },
   textInput: {
     borderRadius: 3,

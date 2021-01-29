@@ -30,24 +30,28 @@ const Requests = ({navigation}) => {
             details={'details of name1'}
             bloodGroup={'A+'}
             location={'Karachi'}
+            number={'0000000'}
           />
           <RequestCard
             name={'name1'}
             details={'details of name1'}
             bloodGroup={'A+'}
             location={'Karachi'}
+            number={'0000000'}
           />
           <RequestCard
             name={'name1'}
             details={'details of name1'}
             bloodGroup={'A+'}
             location={'Karachi'}
+            number={'0000000'}
           />
           <RequestCard
             name={'name1'}
             details={'details of name1'}
             bloodGroup={'A+'}
             location={'Karachi'}
+            number={'0000000'}
           />
         </ScrollView>
       </View>

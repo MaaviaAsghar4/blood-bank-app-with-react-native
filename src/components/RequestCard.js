@@ -1,15 +1,16 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-const RequestCard = ({name, details, bloodGroup, location}) => {
+const RequestCard = ({name, details, bloodGroup, location, number}) => {
   return (
     <View style={styles.boxes}>
       <Text style={styles.title}>Name: {name}</Text>
       <Text style={styles.details}>Details: {details}</Text>
       <Text style={styles.bloodGroup}>Blood Group Required: {bloodGroup}</Text>
       <Text style={styles.bloodGroup}>Location: {location}</Text>
+      <Text style={styles.bloodGroup}>Phone Number: {number}</Text>
       <TouchableOpacity style={styles.btnContainer}>
-        <Text style={styles.viewbtn}>Contact</Text>
+        <Text style={styles.viewbtn}>Request Blood</Text>
       </TouchableOpacity>
     </View>
   );
