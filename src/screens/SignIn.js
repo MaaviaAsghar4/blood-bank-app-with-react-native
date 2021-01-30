@@ -7,12 +7,18 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {signInAuth} from '../store/actions/index';
+import {connect} from 'react-redux';
 
-const SignIn = ({navigation}) => {
+const SignIn = ({navigation, SignInAuth}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert('Both Email and Password are required');
+    }
     console.log(email, password);
+    await SignInAuth(email, password);
     navigation.navigate('Info');
     setEmail('');
     setPassword('');
@@ -50,7 +56,11 @@ const SignIn = ({navigation}) => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => ({
+  SignInAuth: (email, password) => dispatch(signInAuth(email, password)),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
 
 const styles = StyleSheet.create({
   container: {

@@ -9,15 +9,15 @@ import UserInfo from '../screens/UserInfo';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Info from '../screens/Info';
+import {connect} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const ReactNavigation = () => {
-  const user = 'null';
+const ReactNavigation = ({user}) => {
   return (
     <NavigationContainer>
-      {user ? (
+      {user.email ? (
         <Drawer.Navigator>
           <Drawer.Screen
             name="Home"
@@ -115,4 +115,7 @@ const ReactNavigation = () => {
   );
 };
 
-export default ReactNavigation;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+export default connect(mapStateToProps, null)(ReactNavigation);
