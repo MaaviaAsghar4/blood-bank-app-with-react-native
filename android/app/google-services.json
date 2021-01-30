@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "534798375900",
+    "firebase_url": "https://olx-website-react.firebaseio.com",
+    "project_id": "olx-website-react",
+    "storage_bucket": "olx-website-react.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534798375900:android:ef9855dba138c852fd4d19",
+        "android_client_info": {
+          "package_name": "com.bloodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534798375900-fdm25ntpihe8a4ttns2mt0i30h4lv2vj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB79ETp_PppuZDLCQTjY5FI4-E-8y159-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534798375900-fdm25ntpihe8a4ttns2mt0i30h4lv2vj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
