@@ -86,6 +86,7 @@ const Info = ({navigation, user, asyncState, reRender}) => {
         <Text style={styles.label}>Your Phone Number</Text>
         <TextInput
           style={styles.textInput}
+          keyboardType={'number-pad'}
           placeholder={'Enter Phone Number'}
           value={number}
           onChangeText={(text) => setNumber(text)}

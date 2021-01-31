@@ -77,6 +77,7 @@ const PostRequest = ({navigation}) => {
           <Text style={styles.label}>Phone Number</Text>
           <TextInput
             style={styles.textInput}
+            keyboardType={'number-pad'}
             placeholder={'Enter Phone Number'}
             value={number}
             onChangeText={(text) => setNumber(text)}

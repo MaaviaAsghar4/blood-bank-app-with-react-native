@@ -31,7 +31,11 @@ const ReactNavigation = ({email, asyncState}) => {
     const value = await AsyncStorage.getItem('userEmail');
     setUserEmail(value);
   };
-  console.log(email.user);
+
+  const stopRendering = () => {
+    setUserEmail(null);
+  };
+
   useEffect(() => {
     asyncFunction();
   }, [email.user]);
@@ -76,8 +80,7 @@ const ReactNavigation = ({email, asyncState}) => {
             }}
           />
           <Drawer.Screen
-            name="Auth"
-            component={UserInfo}
+            name="UserInfo"
             options={{
               title: 'User Info',
               headerStyle: {backgroundColor: '#ea4335'},
@@ -85,14 +88,14 @@ const ReactNavigation = ({email, asyncState}) => {
                 textAlign: 'center',
                 fontWeight: 'bold',
               },
-            }}
-          />
+            }}>
+            {(props) => <UserInfo {...props} stopRendering={stopRendering} />}
+          </Drawer.Screen>
         </Drawer.Navigator>
       ) : (
         <Stack.Navigator>
           <Stack.Screen
             name="SignIn"
-            component={SignIn}
             options={{
               title: 'Sign In',
               headerStyle: {backgroundColor: '#ea4335'},
@@ -101,8 +104,9 @@ const ReactNavigation = ({email, asyncState}) => {
                 fontWeight: 'bold',
                 color: '#f7f7f7',
               },
-            }}
-          />
+            }}>
+            {(props) => <SignIn {...props} />}
+          </Stack.Screen>
           <Stack.Screen
             name="SignUp"
             component={SignUp}

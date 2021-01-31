@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logout} from '../store/actions/index';
 import {connect} from 'react-redux';
 
-const UserInfo = ({logout}) => {
+const UserInfo = ({logout, navigation, stopRendering}) => {
   let [name, setName] = useState('');
   let [email, setEmail] = useState('');
   let [bloodGroup, setBloodGroup] = useState('');
@@ -13,6 +13,7 @@ const UserInfo = ({logout}) => {
 
   const handleLogout = () => {
     logout();
+    stopRendering();
   };
 
   useEffect(() => {
