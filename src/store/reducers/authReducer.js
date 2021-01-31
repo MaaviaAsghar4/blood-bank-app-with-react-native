@@ -1,15 +1,16 @@
-const user = {
-  user: [{}],
+const userInfo = {
+  user: [],
 };
 
-export default (state = user, action) => {
+export default (state = userInfo, action) => {
   switch (action.type) {
     case 'SignIn':
-      return {
-        user: action.payload,
-      };
+      const {user} = state;
+      user.push(action.payload);
+      const newState = {user};
+      return newState;
     case 'Logout':
-      return {user: []};
+      return {user: {}};
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -10,14 +10,34 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Info from '../screens/Info';
 import {connect} from 'react-redux';
+import {asyncState} from '../store/actions/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const ReactNavigation = ({user}) => {
+const ReactNavigation = ({email, asyncState}) => {
+  let [userEmail, setUserEmail] = useState(null);
+  const asyncFunction = async () => {
+    const value = await AsyncStorage.getItem('userEmail');
+    setUserEmail(value);
+    asyncState();
+  };
+  const reRender = async () => {
+    const value = await AsyncStorage.getItem('userEmail');
+    setUserEmail(value);
+  };
+  console.log(email.user);
+  useEffect(() => {
+    asyncFunction();
+
+    return () => {
+      setUserEmail(null);
+    };
+  }, [email.user]);
   return (
     <NavigationContainer>
-      {user.email ? (
+      {userEmail ? (
         <Drawer.Navigator>
           <Drawer.Screen
             name="Home"
@@ -98,7 +118,6 @@ const ReactNavigation = ({user}) => {
           />
           <Stack.Screen
             name="Info"
-            component={Info}
             options={{
               title: 'User Info',
               headerStyle: {backgroundColor: '#ea4335'},
@@ -107,8 +126,9 @@ const ReactNavigation = ({user}) => {
                 fontWeight: 'bold',
                 color: '#f7f7f7',
               },
-            }}
-          />
+            }}>
+            {(props) => <Info {...props} reRender={reRender} />}
+          </Stack.Screen>
         </Stack.Navigator>
       )}
     </NavigationContainer>
@@ -116,6 +136,12 @@ const ReactNavigation = ({user}) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
+  email: state.asyncStorage.email,
 });
-export default connect(mapStateToProps, null)(ReactNavigation);
+
+const mapDispatchToProps = (dispatch) => ({
+  asyncState: () => dispatch(asyncState()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReactNavigation);
+// export default ReactNavigation;

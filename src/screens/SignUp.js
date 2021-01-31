@@ -14,7 +14,6 @@ const SignUp = ({navigation, SignUpAuth}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async () => {
-    console.log(email, password);
     if (!email || !password) {
       alert('Both Email and Password are required');
     }

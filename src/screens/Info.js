@@ -7,21 +7,46 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {asyncState} from '../store/actions/index';
+import database from '@react-native-firebase/database';
 
-const Info = ({navigation}) => {
+const Info = ({navigation, user, asyncState, reRender}) => {
   const [name, setName] = useState('');
   const [bloodGroup, setBloodGroup] = useState('');
   const [location, setLocation] = useState('');
   const [number, setNumber] = useState('');
-  const handleLogin = () => {
-    console.log(name, bloodGroup, location, number);
-    // navigation.navigate('Info');
-    setEmail('');
-    setPassword('');
+  const handleLogin = async () => {
+    try {
+      await AsyncStorage.setItem('userEmail', user[0].email);
+      await AsyncStorage.setItem('userName', name);
+      await AsyncStorage.setItem('userBloodGroup', bloodGroup);
+      await AsyncStorage.setItem('userLocation', location);
+      await AsyncStorage.setItem('userNumber', number);
+      database()
+        .ref('/userInfo')
+        .push({
+          name,
+          bloodGroup,
+          location,
+          number,
+          email: await AsyncStorage.getItem('userEmail'),
+        });
+      reRender();
+      asyncState();
+      setName('');
+      setBloodGroup('');
+      setLocation('');
+      setNumber('');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please fill out the Info</Text>
+      <Text style={styles.title}>Welcome {user[0].email}</Text>
+      <Text style={styles.title}>Please fill out the Info </Text>
       <ScrollView>
         <Text style={styles.label}>Your Name</Text>
         <TextInput
@@ -61,7 +86,14 @@ const Info = ({navigation}) => {
   );
 };
 
-export default Info;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  asyncState: () => dispatch(asyncState()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Info);
 
 const styles = StyleSheet.create({
   container: {

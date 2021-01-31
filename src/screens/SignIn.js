@@ -17,7 +17,6 @@ const SignIn = ({navigation, SignInAuth}) => {
     if (!email || !password) {
       alert('Both Email and Password are required');
     }
-    console.log(email, password);
     await SignInAuth(email, password);
     navigation.navigate('Info');
     setEmail('');
