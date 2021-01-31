@@ -1,7 +1,36 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {logout} from '../store/actions/index';
+import {connect} from 'react-redux';
 
-const UserInfo = () => {
+const UserInfo = ({logout}) => {
+  let [name, setName] = useState('');
+  let [email, setEmail] = useState('');
+  let [bloodGroup, setBloodGroup] = useState('');
+  let [phoneNumber, setPhoneNumber] = useState('');
+  let [location, setLocation] = useState('');
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const userEmail = await AsyncStorage.getItem('userEmail');
+      const userName = await AsyncStorage.getItem('userName');
+      const userBloodGroup = await AsyncStorage.getItem('userBloodGroup');
+      const userPhoneNumber = await AsyncStorage.getItem('userNumber');
+      const userLocation = await AsyncStorage.getItem('userLocation');
+      setEmail(userEmail);
+      setName(userName);
+      setPhoneNumber(userPhoneNumber);
+      setBloodGroup(userBloodGroup);
+      setLocation(userLocation);
+    };
+
+    asyncFunction();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -18,11 +47,14 @@ const UserInfo = () => {
           <Text style={styles.user}>User Information</Text>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>Name</Text>
-          <Text style={styles.bloodGroup}>Blood Group</Text>
-          <Text style={styles.email}>Email</Text>
-          <Text style={styles.email}>Phone Number</Text>
-          <TouchableOpacity style={styles.logoutContainer}>
+          <Text style={styles.name}>Name: {name}</Text>
+          <Text style={styles.bloodGroup}>Blood Group: {bloodGroup}</Text>
+          <Text style={styles.email}>Email: {email}</Text>
+          <Text style={styles.email}>Phone Number: {phoneNumber}</Text>
+          <Text style={styles.email}>Location: {location}</Text>
+          <TouchableOpacity
+            style={styles.logoutContainer}
+            onPress={handleLogout}>
             <Text style={styles.logout}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -31,7 +63,11 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(logout()),
+});
+
+export default connect(null, mapDispatchToProps)(UserInfo);
 
 const styles = StyleSheet.create({
   container: {
@@ -90,17 +126,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   name: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   bloodGroup: {
     marginTop: 20,
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   email: {
     marginTop: 20,
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   logout: {

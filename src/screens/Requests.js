@@ -5,10 +5,26 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import RequestCard from '../components/RequestCard';
+import database from '@react-native-firebase/database';
 
 const Requests = ({navigation}) => {
+  let [data, setData] = useState([]);
+
+  useEffect(() => {
+    database()
+      .ref('/requests')
+      .on('value', (result) => {
+        data = [];
+        result.forEach((childResults) => {
+          data.push(childResults.val());
+        });
+        setData(data);
+      });
+  }, []);
+
+  console.log(data);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -25,34 +41,18 @@ const Requests = ({navigation}) => {
           <Text style={styles.requests}>Active Request</Text>
         </View>
         <ScrollView>
-          <RequestCard
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-            location={'Karachi'}
-            number={'0000000'}
-          />
-          <RequestCard
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-            location={'Karachi'}
-            number={'0000000'}
-          />
-          <RequestCard
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-            location={'Karachi'}
-            number={'0000000'}
-          />
-          <RequestCard
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-            location={'Karachi'}
-            number={'0000000'}
-          />
+          {data.map((values, i) => {
+            return (
+              <RequestCard
+                key={i}
+                name={values.name}
+                details={values.details}
+                bloodGroup={values.bloodGroup}
+                location={values.location}
+                number={values.number}
+              />
+            );
+          })}
         </ScrollView>
       </View>
     </View>

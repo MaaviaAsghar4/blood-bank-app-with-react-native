@@ -19,9 +19,13 @@ const Stack = createStackNavigator();
 const ReactNavigation = ({email, asyncState}) => {
   let [userEmail, setUserEmail] = useState(null);
   const asyncFunction = async () => {
-    const value = await AsyncStorage.getItem('userEmail');
-    setUserEmail(value);
-    asyncState();
+    if (email.user === null) {
+      const value = await AsyncStorage.getItem('userEmail');
+      setUserEmail(value);
+      asyncState();
+    } else {
+      setUserEmail(null);
+    }
   };
   const reRender = async () => {
     const value = await AsyncStorage.getItem('userEmail');
@@ -30,10 +34,6 @@ const ReactNavigation = ({email, asyncState}) => {
   console.log(email.user);
   useEffect(() => {
     asyncFunction();
-
-    return () => {
-      setUserEmail(null);
-    };
   }, [email.user]);
   return (
     <NavigationContainer>

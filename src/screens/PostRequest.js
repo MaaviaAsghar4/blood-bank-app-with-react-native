@@ -7,18 +7,28 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
+import database from '@react-native-firebase/database';
 
 const PostRequest = ({navigation}) => {
   const [name, setName] = useState('');
   const [details, setDetails] = useState('');
   const [bloodGroup, setBloodGroup] = useState('');
   const [location, setLocation] = useState('');
+  const [number, setNumber] = useState('');
   const handleFormSubmit = () => {
-    console.log(name, details, bloodGroup, location);
+    database().ref('/requests').push({
+      name,
+      bloodGroup,
+      location,
+      number,
+      details,
+    });
+    alert('Your Request has been added');
     setName('');
     setDetails('');
     setLocation('');
     setBloodGroup('');
+    setNumber('');
   };
   return (
     <View style={styles.container}>
@@ -63,6 +73,13 @@ const PostRequest = ({navigation}) => {
             placeholder={'Enter Required Blood Group'}
             value={bloodGroup}
             onChangeText={(text) => setBloodGroup(text)}
+          />
+          <Text style={styles.label}>Phone Number</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Enter Phone Number'}
+            value={number}
+            onChangeText={(text) => setNumber(text)}
           />
           <TouchableOpacity
             style={styles.btnContainer}

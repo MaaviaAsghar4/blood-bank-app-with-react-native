@@ -1,14 +1,33 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Linking,
+  Platform,
+} from 'react-native';
 
-const Cards = ({name, details, bloodGroup}) => {
+const Cards = ({name, location, email, number, bloodGroup, medicalHistory}) => {
+  const openDialScreen = () => {
+    let phoneNumber = '';
+    if (Platform.OS === 'android') {
+      phoneNumber = 'tel:${' + number + '}';
+    } else {
+      phoneNumber = 'telprompt:${' + number + '}';
+    }
+    Linking.openURL(phoneNumber);
+  };
   return (
     <View style={styles.boxes}>
       <Text style={styles.title}>Name: {name}</Text>
-      <Text style={styles.details}>Details: {details}</Text>
+      <Text style={styles.details}>Phone Number: {number}</Text>
+      <Text style={styles.details}>Email: {email}</Text>
+      <Text style={styles.details}>Location: {location}</Text>
+      <Text style={styles.details}>Medical History: {medicalHistory}</Text>
       <Text style={styles.bloodGroup}>Blood Group: {bloodGroup}</Text>
-      <TouchableOpacity style={styles.btnContainer}>
-        <Text style={styles.viewbtn}>View</Text>
+      <TouchableOpacity style={styles.btnContainer} onPress={openDialScreen}>
+        <Text style={styles.viewbtn}>Request Blood</Text>
       </TouchableOpacity>
     </View>
   );

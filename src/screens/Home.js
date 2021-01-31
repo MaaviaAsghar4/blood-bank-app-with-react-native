@@ -5,10 +5,27 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Cards from '../components/Cards';
+import database from '@react-native-firebase/database';
 
 const Home = ({navigation}) => {
+  let [data, setData] = useState([]);
+
+  useEffect(() => {
+    database()
+      .ref('/userInfo')
+      .on('value', (result) => {
+        data = [];
+        result.forEach((childResults) => {
+          data.push(childResults.val());
+        });
+        setData(data);
+      });
+  }, []);
+
+  console.log(data);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -25,26 +42,19 @@ const Home = ({navigation}) => {
           <Text style={styles.user}>Users</Text>
         </View>
         <ScrollView>
-          <Cards
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-          />
-          <Cards
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-          />
-          <Cards
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-          />
-          <Cards
-            name={'name1'}
-            details={'details of name1'}
-            bloodGroup={'A+'}
-          />
+          {data.map((values, i) => {
+            return (
+              <Cards
+                key={i}
+                name={values.name}
+                location={values.location}
+                email={values.email}
+                number={values.number}
+                bloodGroup={values.bloodGroup}
+                medicalHistory={values.medicalHistory}
+              />
+            );
+          })}
         </ScrollView>
       </View>
     </View>

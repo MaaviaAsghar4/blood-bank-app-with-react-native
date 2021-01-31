@@ -10,7 +10,10 @@ export default (state = userInfo, action) => {
       const newState = {user};
       return newState;
     case 'Logout':
-      return {user: {}};
+      return {
+        ...state,
+        user: [],
+      };
     default:
       return state;
   }

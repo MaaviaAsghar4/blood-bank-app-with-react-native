@@ -17,6 +17,7 @@ const Info = ({navigation, user, asyncState, reRender}) => {
   const [bloodGroup, setBloodGroup] = useState('');
   const [location, setLocation] = useState('');
   const [number, setNumber] = useState('');
+  const [medicalHistory, setMedicalHistory] = useState('');
   const handleLogin = async () => {
     try {
       await AsyncStorage.setItem('userEmail', user[0].email);
@@ -31,6 +32,7 @@ const Info = ({navigation, user, asyncState, reRender}) => {
           bloodGroup,
           location,
           number,
+          medicalHistory,
           email: await AsyncStorage.getItem('userEmail'),
         });
       reRender();
@@ -70,6 +72,16 @@ const Info = ({navigation, user, asyncState, reRender}) => {
           placeholder={'Enter location'}
           value={location}
           onChangeText={(text) => setLocation(text)}
+        />
+        <Text style={styles.label}>
+          Your Medical History (Tell whether you have any disease like cancer,
+          thalassemia or Not)
+        </Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder={'Enter Your Medical History'}
+          value={medicalHistory}
+          onChangeText={(text) => setMedicalHistory(text)}
         />
         <Text style={styles.label}>Your Phone Number</Text>
         <TextInput
